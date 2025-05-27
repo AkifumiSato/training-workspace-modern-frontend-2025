@@ -7,15 +7,15 @@
     "lint": "turbo run lint",
     "check": "biome check",
     "check:fix": "biome check --apply",
-    "check-types": "turbo run check-types"
+    "typecheck": "turbo run typecheck"
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "turbo": "^2.5.3",
+    "turbo": "2.5.3",
     "typescript": "5.8.2"
   },
-  "packageManager": "pnpm@9.0.0",
+  "packageManager": "pnpm@10.8.1",
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   }
 }
