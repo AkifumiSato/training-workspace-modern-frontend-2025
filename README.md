@@ -7,7 +7,9 @@
 - Node.js 22.x
 - pnpm 10.1.8
 
-### Install Node.js and pnpm
+### Install Node.js and pnpm by nvm
+
+以下は、[nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating)を使ってNode.jsとpnpmをインストールする手順です。
 
 ```shell-session
 $ nvm install 22.x.x
@@ -20,10 +22,12 @@ $ pnpm --version
 10.1.8
 ```
 
-## Quick Start
+## Clone & Install
 
 ```shell-session
 $ git clone https://github.com/AkifumiSato/workspace-of-modern-frontend-training-2025.git
 $ cd workspace-of-modern-frontend-training-2025
 $ pnpm i
+# Biomeによるコードチェックで動作テスト
+$ pnpm check
 ```
