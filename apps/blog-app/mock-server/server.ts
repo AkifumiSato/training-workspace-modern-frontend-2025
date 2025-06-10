@@ -27,7 +27,7 @@ const server = createServer(async (req, res) => {
   // Posts API routes
   if (pathname.startsWith("/posts")) {
     const body = await readBody(req);
-    handlePostsMock(res, pathname, method, body || undefined);
+    handlePostsMock(res, pathname, method, req.url!, body);
     return;
   }
 

@@ -22,6 +22,32 @@
         "description": "すべてのブログ投稿を取得します",
         "operationId": "getPosts",
         "tags": ["posts"],
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "取得する投稿数の上限",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 10,
+              "example": 10
+            }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "description": "スキップする投稿数",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "example": 0
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "投稿一覧の取得に成功",
