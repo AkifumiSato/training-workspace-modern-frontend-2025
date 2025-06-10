@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body>{children}</body>
+      <body>
+        <div className="p-10">{children}</div>
+      </body>
     </html>
   );
 }
