@@ -8,8 +8,8 @@
     "./*": "./src/components/ui/*.tsx"
   },
   "scripts": {
-    "build" :  "tailwindcss -i ./src/styles.css -o ./dist/styles.css" , 
-    "dev" :  "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch" ,
+    "build": "tailwindcss -i ./src/styles.css -o ./dist/styles.css",
+    "dev": "tailwindcss -i ./src/styles.css -o ./dist/styles.css --watch",
     "typecheck": "tsc --noEmit",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
