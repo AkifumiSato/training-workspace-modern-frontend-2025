@@ -23,6 +23,6 @@
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "biome.lspBin": "./frontend/node_modules/@biomejs/biome/bin/biome",
+  "biome.lsp.bin": "./frontend/node_modules/@biomejs/biome/bin/biome",
   "biome.enabled": true
 }

@@ -17,3 +17,6 @@ export default function RootLayout({
     </html>
   );
 }
+
+// Cacheは全てOpt Out
+export const dynamic = "force-dynamic";

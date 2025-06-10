@@ -13,3 +13,10 @@ $ pnpm build # or pnpm dev
 # /apps/blog-app
 $ pnpm dev
 ```
+
+## 参考
+
+不明点などあれば、公式ドキュメントか書籍Next.jsの考え方を参照してください。
+
+- [Next.js公式ドキュメント](https://nextjs.org/docs)
+- [Next.jsの考え方](https://zenn.dev/akfm/books/nextjs-basic-principle)

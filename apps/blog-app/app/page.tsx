@@ -1,10 +1,10 @@
-import { Button } from "@repo/ui/button";
+import { Posts } from "./_containers/posts";
 
 export default function Page() {
   return (
-    <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-3xl font-bold">Hello World</h1>
-      <Button>Click me</Button>
+    <div className="flex flex-col gap-10 p-10">
+      <h1 className="text-3xl font-bold">Blog Posts</h1>
+      <Posts />
     </div>
   );
 }
