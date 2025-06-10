@@ -1,12 +1,19 @@
 export type Post = {
   id: number;
   title: string;
+  summary: string;
   body: string;
 };
 
 export type PostsResponse = {
-  posts: Post[];
+  posts: PostSummary[];
   total: number;
   skip: number;
   limit: number;
+};
+
+export type PostSummary = {
+  id: number;
+  title: string;
+  summary: string;
 };

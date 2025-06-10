@@ -13,7 +13,7 @@ export async function Posts() {
           className="grid grid-rows-[auto_1fr_auto] gap-3 border-b border-gray-200 p-4"
         >
           <h2 className="text-lg font-bold">{post.title}</h2>
-          <p className="text-sm text-gray-500">{post.body}</p>
+          <p className="text-sm text-gray-500">{post.summary}</p>
           <Button asChild variant="outline">
             <Link href={`/posts/${post.id}`}>View Post</Link>
           </Button>

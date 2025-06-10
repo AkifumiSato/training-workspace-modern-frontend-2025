@@ -15,5 +15,5 @@ type PostsResponse = {
 type Post = {
   id: number;
   title: string;
-  body: string;
+  summary: string;
 };

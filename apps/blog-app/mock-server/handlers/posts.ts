@@ -1,7 +1,7 @@
 import type { ServerResponse } from "node:http";
 import { extractPathParams, matchUrlPath } from "../utils/url";
 import { posts } from "./fixture";
-import type { Post, PostsResponse } from "./type";
+import type { Post, PostSummary, PostsResponse } from "./type";
 
 function* nextIdGenerator() {
   let id = Math.max(...posts.map((p) => p.id)) + 1;
@@ -27,10 +27,9 @@ export const handlePostsMock = (
         const skipParam = queryParams.skip;
 
         const skip = Math.max(0, Number.parseInt(skipParam || "0", 10) || 0);
-        const limit = Math.max(
-          0,
-          Number.parseInt(limitParam || "10", 10) || 10,
-        );
+        const limit = limitParam
+          ? Math.max(0, Number.parseInt(limitParam, 10) || 0)
+          : posts.length;
 
         const postsResponse = createPostsResponse(skip, limit);
         sendJsonResponse(res, 200, postsResponse);
@@ -45,13 +44,14 @@ export const handlePostsMock = (
         }
 
         if (!validatePostData(newPost)) {
-          sendErrorResponse(res, 400, "title and body are required");
+          sendErrorResponse(res, 400, "title, summary and body are required");
           return;
         }
 
         const post: Post = {
           id: nextId(),
           title: newPost.title,
+          summary: newPost.summary,
           body: newPost.body,
         };
         posts.push(post);
@@ -95,7 +95,7 @@ export const handlePostsMock = (
         }
 
         if (!validatePostData(updatedPost)) {
-          sendErrorResponse(res, 400, "title and body are required");
+          sendErrorResponse(res, 400, "title, summary and body are required");
           return;
         }
 
@@ -103,6 +103,7 @@ export const handlePostsMock = (
         posts[postIndex] = {
           ...existingPost,
           title: updatedPost.title,
+          summary: updatedPost.summary,
           body: updatedPost.body,
         };
 
@@ -149,7 +150,11 @@ const sendErrorResponse = (
 };
 
 const createPostsResponse = (skip: number, limit: number): PostsResponse => ({
-  posts: posts.slice(skip, skip + limit),
+  posts: posts.slice(skip, skip + limit).map((p) => ({
+    id: p.id,
+    title: p.title,
+    summary: p.summary,
+  })),
   total: posts.length,
   skip: skip,
   limit: limit,
@@ -168,7 +173,7 @@ const parseJsonBody = <T>(
 
 const validatePostData = (
   post: unknown,
-): post is { title: string; body: string } => {
+): post is { title: string; summary: string; body: string } => {
   if (typeof post !== "object" || post === null) {
     return false;
   }
@@ -176,8 +181,10 @@ const validatePostData = (
   const obj = post as Record<string, unknown>;
   return (
     typeof obj.title === "string" &&
+    typeof obj.summary === "string" &&
     typeof obj.body === "string" &&
     obj.title.trim() !== "" &&
+    obj.summary.trim() !== "" &&
     obj.body.trim() !== ""
   );
 };
