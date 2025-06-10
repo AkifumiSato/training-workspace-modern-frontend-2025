@@ -4,7 +4,7 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@ui/*": ["./src/*"]
     },
     "module": "esnext",
     "moduleResolution": "bundler"
