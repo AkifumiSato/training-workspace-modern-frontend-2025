@@ -1,0 +1,308 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Blog API",
+    "description": "ブログアプリケーション用のモックAPI",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Blog API サポート",
+      "email": "support@example.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3001",
+      "description": "ローカル開発サーバー"
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "summary": "投稿一覧を取得",
+        "description": "すべてのブログ投稿を取得します",
+        "operationId": "getPosts",
+        "tags": ["posts"],
+        "responses": {
+          "200": {
+            "description": "投稿一覧の取得に成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PostsResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "新しい投稿を作成",
+        "description": "新しいブログ投稿を作成します",
+        "operationId": "createPost",
+        "tags": ["posts"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "投稿の作成に成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "リクエストが不正",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/posts/{postId}": {
+      "parameters": [
+        {
+          "name": "postId",
+          "in": "path",
+          "required": true,
+          "description": "投稿のID",
+          "schema": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 1
+          }
+        }
+      ],
+      "get": {
+        "summary": "特定の投稿を取得",
+        "description": "指定されたIDの投稿を取得します",
+        "operationId": "getPost",
+        "tags": ["posts"],
+        "responses": {
+          "200": {
+            "description": "投稿の取得に成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "投稿が見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "投稿を更新",
+        "description": "指定されたIDの投稿を更新します",
+        "operationId": "updatePost",
+        "tags": ["posts"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdatePostRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "投稿の更新に成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "リクエストが不正",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "投稿が見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "投稿を削除",
+        "description": "指定されたIDの投稿を削除します",
+        "operationId": "deletePost",
+        "tags": ["posts"],
+        "responses": {
+          "204": {
+            "description": "投稿の削除に成功"
+          },
+          "404": {
+            "description": "投稿が見つからない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Post": {
+        "type": "object",
+        "required": ["id", "title", "body"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "投稿の一意識別子",
+            "example": 1
+          },
+          "title": {
+            "type": "string",
+            "description": "投稿のタイトル",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "Server Componentsでデータフェッチを最適化する"
+          },
+          "body": {
+            "type": "string",
+            "description": "投稿の本文",
+            "minLength": 1,
+            "example": "Next.js App RouterのServer Componentsを活用することで、サーバーサイドでのデータフェッチが可能になります。従来のuseEffectを使ったクライアントサイドでのデータ取得と比較して、初期表示速度の向上とSEO対策の観点から大きなメリットがあります。実際のコード例を交えて、効率的なデータフェッチパターンを解説します。"
+          }
+        }
+      },
+      "PostsResponse": {
+        "type": "object",
+        "required": ["posts", "total", "skip", "limit"],
+        "properties": {
+          "posts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Post"
+            },
+            "description": "投稿のリスト"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "description": "投稿の総数",
+            "minimum": 0,
+            "example": 10
+          },
+          "skip": {
+            "type": "integer",
+            "format": "int64",
+            "description": "スキップされた投稿数",
+            "minimum": 0,
+            "example": 0
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int64",
+            "description": "取得する投稿の上限数",
+            "minimum": 0,
+            "example": 10
+          }
+        }
+      },
+      "CreatePostRequest": {
+        "type": "object",
+        "required": ["title", "body"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "投稿のタイトル",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "新しいブログ投稿のタイトル"
+          },
+          "body": {
+            "type": "string",
+            "description": "投稿の本文",
+            "minLength": 1,
+            "example": "これは新しいブログ投稿の本文です。Next.jsの新機能について詳しく解説していきます。"
+          }
+        }
+      },
+      "UpdatePostRequest": {
+        "type": "object",
+        "required": ["title", "body"],
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "更新する投稿のタイトル",
+            "minLength": 1,
+            "maxLength": 200,
+            "example": "更新されたブログ投稿のタイトル"
+          },
+          "body": {
+            "type": "string",
+            "description": "更新する投稿の本文",
+            "minLength": 1,
+            "example": "これは更新されたブログ投稿の本文です。最新の情報を追加しました。"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "エラーメッセージ",
+            "example": "Post not found"
+          }
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "posts",
+      "description": "ブログ投稿に関する操作"
+    }
+  ]
+}
