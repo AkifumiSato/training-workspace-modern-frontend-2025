@@ -8,20 +8,8 @@ import {
   ListToolsRequestSchema,
   type Tool,
 } from "@modelcontextprotocol/sdk/types.js";
-import { type Page, chromium } from "playwright";
-
-type AccessibilitySnapshot = Awaited<
-  ReturnType<Page["accessibility"]["snapshot"]>
->;
-
-type A11yNode = {
-  role?: string;
-  name?: string;
-  value?: string;
-  description?: string;
-  children?: A11yNode[];
-  [key: string]: unknown;
-};
+import { formatA11yResults } from "./formatter.js";
+import { generateStorybookUrl, getStorybookA11yTree } from "./storybook.js";
 
 const server = new Server(
   {
@@ -66,93 +54,6 @@ const tools: Tool[] = [
   },
 ];
 
-function generateStorybookUrl(
-  host: string,
-  title: string,
-  storyName: string,
-): string {
-  // Convert title: MyTest/SomeText -> mytest-sometext
-  const convertedTitle = title
-    .toLowerCase()
-    .replace(/\//g, "-")
-    .replace(/\s+/g, "");
-
-  // Convert story name: Default -> default
-  const convertedStoryName = storyName.toLowerCase().replace(/\s+/g, "");
-
-  // Generate the id: mytest-sometext--default
-  const id = `${convertedTitle}--${convertedStoryName}`;
-
-  return `${host}/iframe.html?globals=&args=&id=${id}&viewMode=story`;
-}
-
-async function getStorybookA11yTree(
-  url: string,
-  timeout = 30000,
-): Promise<AccessibilitySnapshot> {
-  const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext();
-  const page = await context.newPage();
-
-  try {
-    // Navigate to the Storybook iframe
-    await page.goto(url, { waitUntil: "networkidle", timeout });
-
-    // Wait for the story to load
-    await page.waitForSelector("body", { timeout });
-
-    // Get accessibility analysis using page.accessibility.snapshot()
-    const accessibilityResults = await page.accessibility.snapshot();
-
-    return accessibilityResults;
-  } catch (error) {
-    console.error("Error getting accessibility tree:", error);
-    throw error;
-  } finally {
-    await browser.close();
-  }
-}
-
-function formatA11yResults(results: AccessibilitySnapshot): string {
-  if (!results) {
-    return "❌ No accessibility tree found";
-  }
-
-  let output = "🌳 ACCESSIBILITY TREE:\n\n";
-
-  function formatNode(node: A11yNode, depth = 0): string {
-    const indent = "  ".repeat(depth);
-    let nodeOutput = `${indent}• ${node.role || "unknown"}`;
-
-    if (node.name) {
-      nodeOutput += ` "${node.name}"`;
-    }
-
-    if (node.value) {
-      nodeOutput += ` (value: "${node.value}")`;
-    }
-
-    if (node.description) {
-      nodeOutput += ` - ${node.description}`;
-    }
-
-    nodeOutput += "\n";
-
-    // Add children
-    if (node.children && node.children.length > 0) {
-      nodeOutput += node.children
-        .map((child: A11yNode) => formatNode(child, depth + 1))
-        .join("");
-    }
-
-    return nodeOutput;
-  }
-
-  output += formatNode(results as A11yNode);
-
-  return output;
-}
-
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return { tools };
 });
@@ -189,6 +90,10 @@ server.setRequestHandler(
             {
               type: "text",
               text: `Accessibility analysis for ${title}/${storyName} (${url}):\n\n${formattedResults}`,
+            },
+            {
+              type: "text",
+              text: `Raw accessibility tree data:\n\n${JSON.stringify(a11yResults, null, 2)}`,
             },
           ],
         };
