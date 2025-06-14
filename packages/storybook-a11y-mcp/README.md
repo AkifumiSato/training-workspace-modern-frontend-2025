@@ -1,16 +1,16 @@
 # Storybook a11y tree MCP Server
 
-`http://localhost:6006/iframe.html?globals=&args=&id=button--default&viewMode=story`のようなStorybook単独のURLより、アクセシビリティツリーを取得するMCPサーバーです。
+StorybookのStoryから、アクセシビリティツリーを取得するMCPサーバーです。
 
-このMCPサーバーは、Playwrightを使用してStorybookのiframeページにアクセスし、そのページのアクセシビリティツリーを取得します。
+このMCPサーバーは、Playwrightを使用してStorybookページにアクセスし、指定されたStoryのアクセシビリティツリーを取得します。
 
 ## Quick Start
 
 1. MCPサーバーをbuild
 
 ```shell-session
-$ pnpm build
 $ npx playwright install
+$ pnpm build
 ```
 
 2. Cursorの_mcp.json_などでMCPサーバーを追加
@@ -27,17 +27,20 @@ $ npx playwright install
 ```
 
 > [!NOTE]
-> nvmを使っている場合うまく動かないことがあります。その場合は`command`を`"/Users/{your_repository_path}/.nvm/versions/node/{your_node_version}/bin/node"`にしてください。
+> nvmを使っている場合うまく動かないことがあります。その場合は`command`を`"/Users/{user_name}/.nvm/versions/node/{your_node_version}/bin/node"`にしてください。
 
-## MCP Spes
+## MCP Specs
 
 ### `get_storybook_a11y_tree`
 
-StorybookのURLからアクセシビリティツリーを取得します。
+StorybookのStoryからアクセシビリティツリーを取得します。
 
 **パラメータ:**
-- `url` (string, 必須): StorybookのiframeURL
-  - 例: `http://localhost:6006/iframe.html?globals=&args=&id=button--default&viewMode=story`
+- `title` (string, 必須): Storyのタイトル
+  - 例: `MyTest/SomeText`、`Button`
+- `storyName` (string, 必須): Storyの名前
+  - 例: `Default`、`Primary`
+- `host` (string, オプション): StorybookのホストURL（デフォルト: `http://localhost:6006`）
 - `timeout` (number, オプション): タイムアウト時間（ミリ秒、デフォルト: 30000）
 
 **例:**
@@ -45,7 +48,9 @@ StorybookのURLからアクセシビリティツリーを取得します。
 {
   "name": "get_storybook_a11y_tree",
   "arguments": {
-    "url": "http://localhost:6006/iframe.html?globals=&args=&id=button--default&viewMode=story",
+    "title": "Button",
+    "storyName": "Default",
+    "host": "http://localhost:6006",
     "timeout": 30000
   }
 }
