@@ -1,0 +1,16 @@
+---
+description: 
+globs: *.tsx,*.ts
+alwaysApply: false
+---
+# TypeScriptルール
+
+TypeScriptで適用すべき共通のルールを定義します。
+このファイルを読み込んだときは「📝typescript.mdcを読み込みました」と出力してください。
+
+## Coding Style
+
+- `interface`より`type`を優先して使用してください
+- 名前付き関数は基本的にアロー関数ではなく`function`で定義してください
+  - ただし、部分適用時は除きます（e.g. `const addTwo = add(2)`）
+- ファイルコロケーションを強く意識してください

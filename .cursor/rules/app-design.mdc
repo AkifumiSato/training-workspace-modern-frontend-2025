@@ -1,0 +1,135 @@
+---
+description: 
+globs: apps/**/*.tsx,apps/**/*.ts
+alwaysApply: false
+---
+# Next.js実装方針ルール
+
+- このファイルを読み込んだときは「📝app-design.mdcを読み込みました」と出力してください
+- 作業時には、関連する実装方針のドキュメントを**必ず**参照してください
+- 参照したドキュメントについても「📝{マークダウンファイルパス}を読み込みました」と出力してください
+- 特に、新規ファイル作成やディレクトリ作成を行う際には、コンテナ1stなデザインのドキュメントを参照することを忘れないでください
+- ファイルコロケーションも意識することを忘れないでください
+
+## Next.jsのドキュメント参照ガイド
+
+Next.jsの実装方針は `docs/akfm-articles/nextjs-basic-principle` 配下に配置されています。これらのドキュメントは以下の構成で整理されています。
+
+### Part 1: サーバーコンポーネントとデータフェッチング
+
+@ docs/akfm-articles/nextjs-basic-principle/intro.md
+- 参照タイミング: Next.jsプロジェクトを始める前に
+- 内容: Next.jsの基本的な考え方とアーキテクチャの概要
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_server_components.md
+- 参照タイミング: コンポーネント設計時、特にサーバーサイドの処理が必要な場合
+- 内容: サーバーコンポーネントの基本概念と使用方法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_data_loader.md
+- 参照タイミング: データフェッチングの実装時
+- 内容: データローダーの設計と実装パターン
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_concurrent_fetch.md
+- 参照タイミング: 複数のデータフェッチを並行して行う必要がある場合
+- 内容: 並行フェッチの実装と最適化手法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_request_memoization.md
+- 参照タイミング: パフォーマンス最適化が必要な場合
+- 内容: リクエストのメモ化による最適化手法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_interactive_fetch.md
+- 参照タイミング: ユーザーインタラクションに応じたデータフェッチを実装する場合
+- 内容: インタラクティブなデータフェッチの実装パターン
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_fine_grained_api_design.md
+- 参照タイミング: APIの設計時
+- 内容: 細粒度なAPI設計のベストプラクティス
+
+@ docs/akfm-articles/nextjs-basic-principle/part_1_colocation.md
+- 参照タイミング: ファイル作成時、コロケーションルール確認時、型定義や関数定義を別ファイルに切り出す時など
+- 内容: コードやファイルの配置に関するベストプラクティス
+
+### Part 2: クライアントコンポーネントとデザインパターン
+
+@ docs/akfm-articles/nextjs-basic-principle/part_2_client_components_usecase.md
+- 参照タイミング: クライアントコンポーネントの使用を検討する時
+- 内容: クライアントコンポーネントの適切な使用場面と実装パターン
+
+@ docs/akfm-articles/nextjs-basic-principle/part_2_container_presentational_pattern.md
+- 参照タイミング: コンポーネントの責務分離を設計する時
+- 内容: コンテナ・プレゼンテーショナルパターンの実装方法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_2_composition_pattern.md
+- 参照タイミング: コンポーネントの再利用性を高めたい時
+- 内容: コンポジションパターンによるコンポーネント設計
+
+@ docs/akfm-articles/nextjs-basic-principle/part_2_container_1st_design.md
+- 参照タイミング: 新規ファイル/ディレクトリ作成、ディレクトリ設計時
+- 内容: コンテナファーストの設計アプローチ
+
+### Part 3: レンダリングとキャッシュ
+
+@ docs/akfm-articles/nextjs-basic-principle/part_3_dynamic_rendering_data_cache.md
+- 参照タイミング: 動的なコンテンツのレンダリングを実装する時
+- 内容: 動的レンダリングとデータキャッシュの実装
+
+@ docs/akfm-articles/nextjs-basic-principle/part_3_static_rendering_full_route_cache.md
+- 参照タイミング: 静的コンテンツの最適化が必要な時
+- 内容: 静的レンダリングとルートキャッシュの実装
+
+@ docs/akfm-articles/nextjs-basic-principle/part_3_router_cache.md
+- 参照タイミング: ルーティングのパフォーマンス最適化が必要な時
+- 内容: ルーターキャッシュの仕組みと活用方法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_3_data_mutation.md
+- 参照タイミング: データの更新処理を実装する時
+- 内容: データミューテーションの実装パターン
+
+@ docs/akfm-articles/nextjs-basic-principle/part_3_dynamicio.md
+- 参照タイミング: 動的な入出力処理を実装する時
+- 内容: 動的IOの実装と最適化手法
+
+### Part 4: 高度なレンダリング機能
+
+@ docs/akfm-articles/nextjs-basic-principle/part_4_suspense_and_streaming.md
+- 参照タイミング: 非同期コンテンツの表示を最適化したい時
+- 内容: Suspenseとストリーミングの実装方法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_4_partial_pre_rendering.md
+- 参照タイミング: ページの読み込みパフォーマンスを改善したい時
+- 内容: 部分的なプリレンダリングの実装
+
+@ docs/akfm-articles/nextjs-basic-principle/part_4_pure_server_components.md
+- 参照タイミング: サーバーコンポーネントの高度な活用を検討する時
+- 内容: 純粋なサーバーコンポーネントの実装パターン
+
+### Part 5: エラーハンドリングと認証
+
+@ docs/akfm-articles/nextjs-basic-principle/part_5_error_handling.md
+- 参照タイミング: エラーハンドリングを実装する時
+- 内容: エラー処理の実装パターンとベストプラクティス
+
+@ docs/akfm-articles/nextjs-basic-principle/part_5_auth.md
+- 参照タイミング: 認証システムを実装する時
+- 内容: 認証システムの設計と実装方法
+
+@ docs/akfm-articles/nextjs-basic-principle/part_5_request_ref.md
+- 参照タイミング: リクエストの参照や管理が必要な時
+- 内容: リクエストリファレンスの実装と管理方法
+
+## 参照ルール
+
+1. 実装時は必ず関連するドキュメントを参照し、推奨されるパターンに従って実装してください。
+2. 新しい機能を実装する際は、まずドキュメントを確認し、適切なアプローチを選択してください。
+3. パフォーマンスやセキュリティに関する実装は、特に注意してドキュメントを参照してください。
+4. コンポーネント設計時は、Part 2のデザインパターンを参照し、一貫性のある設計を行ってください。
+5. データフェッチングの実装は、Part 1のパターンに従って実装してください。
+
+## 実装ガイドライン
+
+1. サーバーコンポーネントを基本とし、必要な場合のみクライアントコンポーネントを使用してください。
+2. データフェッチングは、可能な限りサーバーサイドで行ってください。
+3. キャッシュ戦略は、アプリケーションの要件に応じて適切に選択してください。
+4. エラーハンドリングは、ユーザー体験を損なわないように実装してください。
+5. 認証関連の実装は、セキュリティを最優先に考慮してください。
+
