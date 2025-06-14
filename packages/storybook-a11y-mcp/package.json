@@ -1,0 +1,27 @@
+{
+  "name": "@workspace/storybook-a11y-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for extracting accessibility tree from Storybook",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@axe-core/playwright": "4.10.1",
+    "@modelcontextprotocol/sdk": "0.6.1",
+    "playwright": "1.52.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.3",
+    "typescript": "5.8.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "bin": {
+    "storybook-a11y-mcp": "dist/index.js"
+  }
+} 
