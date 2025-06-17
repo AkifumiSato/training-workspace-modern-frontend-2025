@@ -1,3 +1,4 @@
+import kebabCase from "just-kebab-case";
 import { chromium } from "playwright";
 import type { A11yNode, AXNode, AccessibilityTreeResponse } from "./types.js";
 
@@ -12,10 +13,10 @@ export function generateStorybookUrl(
     .replace(/\//g, "-")
     .replace(/\s+/g, "");
 
-  // Convert story name: Default -> default
-  const convertedStoryName = storyName.toLowerCase().replace(/\s+/g, "");
+  // Convert story name from camelCase to kebab-case: MyStoryName -> my-story-name
+  const convertedStoryName = kebabCase(storyName);
 
-  // Generate the id: mytest-sometext--default
+  // Generate the id: mytest-sometext--my-story-name
   const id = `${convertedTitle}--${convertedStoryName}`;
 
   return `${host}/iframe.html?globals=&args=&id=${id}&viewMode=story`;
