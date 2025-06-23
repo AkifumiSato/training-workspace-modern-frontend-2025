@@ -2,7 +2,7 @@
 
 StorybookのStoryから、アクセシビリティツリーを取得するMCPサーバーです。
 
-このMCPサーバーは、Playwrightを使用してStorybookページにアクセスし、指定されたStoryのアクセシビリティツリーを取得します。
+このMCPサーバーは、Playwrightを使用してStorybookページにアクセスし、指定されたStoryのアクセシビリティツリーを取得したり、スクリーンショットを撮影したりできます。
 
 ## Quick Start
 
@@ -56,9 +56,37 @@ StorybookのStoryからアクセシビリティツリーを取得します。
 }
 ```
 
-## 出力例
-
+**出力例:**
 ```
 button "Submit"
   text "Submit"
 ```
+
+### `get_storybook_screenshot`
+
+StorybookのStoryのスクリーンショットを撮影します。
+
+**パラメータ:**
+- `title` (string, 必須): Storyのタイトル
+  - 例: `MyTest/SomeText`、`Button`
+- `storyName` (string, 必須): Storyの名前
+  - 例: `Default`、`Primary`
+- `host` (string, オプション): StorybookのホストURL（デフォルト: `http://localhost:6006`）
+- `timeout` (number, オプション): タイムアウト時間（ミリ秒、デフォルト: 30000）
+
+**例:**
+```json
+{
+  "name": "get_storybook_screenshot",
+  "arguments": {
+    "title": "Button",
+    "storyName": "Default",
+    "host": "http://localhost:6006",
+    "timeout": 30000
+  }
+}
+```
+
+**出力:**
+- テキスト形式でスクリーンショット撮影完了のメッセージ
+- base64エンコードされたPNG形式の画像データ（フルページのスクリーンショット）

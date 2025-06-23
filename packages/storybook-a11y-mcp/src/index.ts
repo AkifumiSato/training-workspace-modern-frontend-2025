@@ -7,7 +7,11 @@ import {
   type Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 import { formatA11yResults } from "./formatter.js";
-import { generateStorybookUrl, getStorybookA11yTree } from "./storybook.js";
+import {
+  generateStorybookUrl,
+  getStorybookA11yTree,
+  getStorybookScreenshot,
+} from "./storybook.js";
 
 const server = new Server(
   {
@@ -25,6 +29,34 @@ const tools: Tool[] = [
   {
     name: "get_storybook_a11y_tree",
     description: "Get accessibility tree from Storybook URL",
+    inputSchema: {
+      type: "object",
+      properties: {
+        host: {
+          type: "string",
+          description: "Storybook host URL (e.g., http://localhost:6006)",
+          default: "http://localhost:6006",
+        },
+        title: {
+          type: "string",
+          description: "Story title (e.g., MyTest/SomeText)",
+        },
+        storyName: {
+          type: "string",
+          description: "Story name (e.g., Default)",
+        },
+        timeout: {
+          type: "number",
+          description: "Timeout in milliseconds (default: 30000)",
+          default: 30000,
+        },
+      },
+      required: ["title", "storyName"],
+    },
+  },
+  {
+    name: "get_storybook_screenshot",
+    description: "Take a screenshot of a Storybook story",
     inputSchema: {
       type: "object",
       properties: {
@@ -101,6 +133,56 @@ server.setRequestHandler(
             {
               type: "text",
               text: `Error getting accessibility analysis: ${error}`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+
+    if (name === "get_storybook_screenshot") {
+      const {
+        host,
+        title,
+        storyName,
+        timeout = 30000,
+      } = args as {
+        host: string;
+        title: string;
+        storyName: string;
+        timeout?: number;
+      };
+
+      try {
+        const url = generateStorybookUrl(
+          host || "http://localhost:6006",
+          title,
+          storyName,
+        );
+        const screenshot = await getStorybookScreenshot(url, timeout);
+
+        // Convert Buffer to base64 string
+        const base64Screenshot = screenshot.toString("base64");
+
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Screenshot captured for ${title}/${storyName} (${url})`,
+            },
+            {
+              type: "image",
+              data: base64Screenshot,
+              mimeType: "image/png",
+            },
+          ],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error taking screenshot: ${error}`,
             },
           ],
           isError: true,

@@ -112,3 +112,33 @@ function convertAXNodesToA11yTree(nodes: AXNode[]): A11yNode {
     children: rootNodes.map((node) => convertNode(node)),
   };
 }
+
+export async function getStorybookScreenshot(
+  url: string,
+  timeout = 30000,
+): Promise<Buffer> {
+  const browser = await chromium.launch({ headless: true });
+  const context = await browser.newContext();
+  const page = await context.newPage();
+
+  try {
+    // Navigate to the Storybook iframe
+    await page.goto(url, { waitUntil: "networkidle", timeout });
+
+    // Wait for the story to load
+    await page.waitForSelector("body", { timeout });
+
+    // Take screenshot
+    const screenshot = await page.screenshot({
+      type: "png",
+      fullPage: true,
+    });
+
+    return screenshot;
+  } catch (error) {
+    console.error("Error taking screenshot:", error);
+    throw error;
+  } finally {
+    await browser.close();
+  }
+}
