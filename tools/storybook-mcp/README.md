@@ -1,8 +1,6 @@
-# Storybook a11y tree MCP Server
+# Storybook MCP Server
 
-StorybookのStoryから、アクセシビリティツリーを取得するMCPサーバーです。
-
-このMCPサーバーは、Playwrightを使用してStorybookページにアクセスし、指定されたStoryのアクセシビリティツリーを取得したり、スクリーンショットを撮影したりできます。
+StorybookのStoryから、アクセシビリティツリーを取得したり、スクリーンショットを撮影したりするMCPサーバーです。
 
 ## Quick Start
 
@@ -18,9 +16,9 @@ $ pnpm build
 ```json
 {
   "mcpServers": {
-    "storybook-a11y-mcp": {
+    "storybook-mcp": {
       "command": "node",
-      "args": ["/Users/{your_repository_path}/workspace-of-modern-frontend-training-2025/packages/storybook-a11y-mcp/dist/index.js"]
+      "args": ["/Users/{your_repository_path}/workspace-of-modern-frontend-training-2025/tools/storybook-mcp/dist/index.js"]
     }
   }
 }

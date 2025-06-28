@@ -15,7 +15,7 @@ import {
 
 const server = new Server(
   {
-    name: "storybook-a11y-mcp",
+    name: "storybook-mcp",
     version: "1.0.0",
   },
   {
