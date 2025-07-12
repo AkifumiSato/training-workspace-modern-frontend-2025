@@ -1,4 +1,5 @@
 import type { ServerResponse } from "node:http";
+import { sendJsonResponse } from "mock-server/utils/response";
 import { extractPathParams, matchUrlPath } from "../utils/url";
 import { posts } from "./fixture";
 import type { Post, PostSummary, PostsResponse } from "./type";
@@ -32,7 +33,7 @@ export const handlePostsMock = (
           : posts.length;
 
         const postsResponse = createPostsResponse(skip, limit);
-        sendJsonResponse(res, 200, postsResponse);
+        sendJsonResponse(res, postsResponse, 200);
         return;
       }
 
@@ -56,7 +57,7 @@ export const handlePostsMock = (
         };
         posts.push(post);
 
-        sendJsonResponse(res, 201, post);
+        sendJsonResponse(res, post, 201);
         return;
       }
 
@@ -78,7 +79,7 @@ export const handlePostsMock = (
           return;
         }
 
-        sendJsonResponse(res, 200, posts[postIndex]);
+        sendJsonResponse(res, posts[postIndex], 200);
         return;
       }
 
@@ -107,7 +108,7 @@ export const handlePostsMock = (
           body: updatedPost.body,
         };
 
-        sendJsonResponse(res, 200, posts[postIndex]);
+        sendJsonResponse(res, posts[postIndex], 200);
         return;
       }
 
@@ -132,21 +133,12 @@ export const handlePostsMock = (
   sendErrorResponse(res, 404, "Not found");
 };
 
-const sendJsonResponse = (
-  res: ServerResponse,
-  statusCode: number,
-  data: unknown,
-) => {
-  res.writeHead(statusCode, { "Content-Type": "application/json" });
-  res.end(JSON.stringify(data));
-};
-
 const sendErrorResponse = (
   res: ServerResponse,
   statusCode: number,
   message: string,
 ) => {
-  sendJsonResponse(res, statusCode, { error: message });
+  sendJsonResponse(res, { error: message }, statusCode);
 };
 
 const createPostsResponse = (skip: number, limit: number): PostsResponse => ({
