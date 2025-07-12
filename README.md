@@ -5,7 +5,7 @@
 以下のNode.jsとpnpmを前提としています。
 
 - Node.js 22.x
-- pnpm 10.1.8
+- pnpm 10.8.1
 
 ### Install Node.js and pnpm by nvm
 
@@ -17,9 +17,9 @@ $ nvm use 22.x.x
 $ nvm alias default 22.x.x
 $ node --version
 v22.x.x
-$ npm i -g pnpm@10.1.8
+$ npm i -g pnpm@10.8.1
 $ pnpm --version
-10.1.8
+10.8.1
 ```
 
 ## Clone & Install
